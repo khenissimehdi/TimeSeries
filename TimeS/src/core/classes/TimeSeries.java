@@ -3,6 +3,8 @@ package core.classes;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.stream.IntStream;
 
 public class TimeSeries<T> {
     public final record Data<T>(long timestamp, T element){
@@ -10,10 +12,55 @@ public class TimeSeries<T> {
             Objects.requireNonNull(element);
         }
     }
-
     private final ArrayList<Data<T>> list = new ArrayList<>();
     private int size;
 
+    public final class Index {
+        private int size;
+        private final int[] indexs;
+
+        private Index(int[] t, int size) {
+            this.indexs  = t;
+            this.size = size;
+        }
+
+        /**
+         * get the table that contains the indexes
+         * */
+
+        public int[] indexes() {
+            return indexs;
+        }
+
+        /**
+         * returns how many elements the Index got
+         * */
+        public int size() {
+            return size;
+        }
+
+
+        @Override
+        public String toString() {
+            if(size == 0) {
+                return "";
+            }
+            var sb = new StringBuilder();
+            for (var i: indexs) {
+                sb.append(list.get(i).timestamp).append(" | ").append(list.get(i).element.toString()).append("\n");
+            }
+            return sb.substring(0, sb.length()-1);
+        }
+    }
+
+
+    /**
+     * creates an Index containing the indexes of the time series
+     * */
+    public Index index() {
+        var l = IntStream.range(0, size).toArray();
+        return new Index(l,size);
+    }
 
     /**
      * add an element to the time series
@@ -37,7 +84,7 @@ public class TimeSeries<T> {
     }
 
     /**
-     * return the number of added element
+     * returns the number of added element
      * */
     public int size() {
         return size;

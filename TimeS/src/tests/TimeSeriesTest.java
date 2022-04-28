@@ -102,7 +102,7 @@ public class TimeSeriesTest {
       assertEquals(new TimeSeries.Data<Integer>(i, i), timeSerie.get(i));
     }
   }
-/*
+
   @Test @Tag("Q3")
   public void index() {
     var timeSerie = new TimeSeries<String>();
@@ -141,6 +141,7 @@ public class TimeSeriesTest {
         67 | b\
         """, index.toString());
   }
+
   @Test @Tag("Q4")
   public void indexNegativeToString() {
     var timeSerie = new TimeSeries<String>();
@@ -161,7 +162,7 @@ public class TimeSeriesTest {
     assertEquals("", index.toString());
   }
 
-
+ /*
   @Test @Tag("Q5")
   public void indexWithFilter() {
     var timeSerie = new TimeSeries<String>();
