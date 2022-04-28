@@ -162,7 +162,7 @@ public class TimeSeriesTest {
     assertEquals("", index.toString());
   }
 
- /*
+
   @Test @Tag("Q5")
   public void indexWithFilter() {
     var timeSerie = new TimeSeries<String>();
@@ -215,7 +215,7 @@ public class TimeSeriesTest {
     assertEquals(2, index.size());
   }
 
-
+ /*
   @Test @Tag("Q6")
   public void indexForEach() {
     var timeSerie = new TimeSeries<String>();

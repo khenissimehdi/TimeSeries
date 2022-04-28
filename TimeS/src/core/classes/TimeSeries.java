@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 public class TimeSeries<T> {
@@ -55,11 +56,23 @@ public class TimeSeries<T> {
 
 
     /**
-     * creates an Index containing the indexes of the time series
+     * returns an Index containing the indexes of the time series
      * */
     public Index index() {
         var l = IntStream.range(0, size).toArray();
         return new Index(l,size);
+    }
+
+    /**
+     * returns an Index Created using the predicated passed as a param
+     * @param predicate Predicate
+     * */
+    public Index index(Predicate<? super T> predicate) {
+        /* we use <? super T> because we are going to consume a predicate,
+        and we want these methods to work with every predecessor of T */
+        Objects.requireNonNull(predicate);
+        var filterList = list.stream().filter(e -> predicate.test(e.element)).toList().stream().mapToInt(list::indexOf).toArray();
+        return new Index(filterList, filterList.length);
     }
 
     /**
