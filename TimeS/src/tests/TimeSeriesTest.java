@@ -4,10 +4,7 @@ import core.classes.TimeSeries;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -215,7 +212,7 @@ public class TimeSeriesTest {
     assertEquals(2, index.size());
   }
 
- /*
+
   @Test @Tag("Q6")
   public void indexForEach() {
     var timeSerie = new TimeSeries<String>();
@@ -373,6 +370,7 @@ public class TimeSeriesTest {
     var index1 = timeSerie.index(s -> s.startsWith("w"));
     var index2 = timeSerie.index(s -> s.startsWith("b"));
     var index = index1.or(index2);
+
     assertEquals(index.size(), 3);
     var timeList = new ArrayList<Long>();
     var elementList = new ArrayList<String>();
@@ -461,7 +459,7 @@ public class TimeSeriesTest {
     assertThrows(NullPointerException.class, () -> index.or(null));
   }
 
-
+/*
   @Test @Tag("Q9")
   public void indexAnd() {
     var timeSerie = new TimeSeries<String>();
