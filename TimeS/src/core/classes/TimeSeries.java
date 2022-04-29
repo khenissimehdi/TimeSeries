@@ -46,7 +46,7 @@ public class TimeSeries<T> {
         }
 
         /**
-         * method that return and Index containing the indexes of the current Index
+         * method that returns an Index containing the indexes of the current Index
          * two indexes plus the indexes of another one passed as a param
          * @param index Index
          * @return Index
@@ -58,10 +58,26 @@ public class TimeSeries<T> {
 
             }
 
-
-           //  var concat = Stream.of(index.indexes, indexes).flatMapToInt(Arrays::stream).toArray();
-
+            // var concat = Stream.of(index.indexes, indexes).flatMapToInt(Arrays::stream).toArray();
              return new Index(IntStream.concat(IntStream.of(indexes), IntStream.of(index.indexes)).distinct().sorted().toArray());
+        }
+
+        /**
+         * method that returns an Index containing the element
+         * that are only in current index and the index passed in param
+         * @param index Index
+         * @return Index
+         * */
+        public Index and(Index index) {
+            Objects.requireNonNull(index);
+            if(motherClassHashCode() != index.motherClassHashCode()) {
+                throw new IllegalArgumentException("The Index have to from the same mother class as the current index");
+            }
+            var h = new HashMap<Integer, Integer>() {{
+                IntStream.concat(IntStream.of(index.indexes), IntStream.of(indexes)).forEach(i  -> merge(i, 1, Integer::sum));
+            }};
+
+            return new Index(IntStream.concat(IntStream.of(index.indexes), IntStream.of(indexes)).filter(i -> h.get(i) > 1).distinct().toArray());
         }
 
         /**

@@ -459,7 +459,7 @@ public class TimeSeriesTest {
     assertThrows(NullPointerException.class, () -> index.or(null));
   }
 
-/*
+
   @Test @Tag("Q9")
   public void indexAnd() {
     var timeSerie = new TimeSeries<String>();
@@ -467,8 +467,8 @@ public class TimeSeriesTest {
     timeSerie.add(21L, "bar");
     timeSerie.add(22L, "baz");
     timeSerie.add(30L, "whizz");
-    var index1 = timeSerie.index(s -> s.startsWith("w") || s.startsWith("f"));
-    var index2 = timeSerie.index(s -> s.startsWith("f"));
+    var index1 = timeSerie.index(s -> s.startsWith("w") || s.startsWith("f")); // 3 - 0
+    var index2 = timeSerie.index(s -> s.startsWith("f")); // 0
     var index = index1.and(index2);
     assertEquals(index.size(), 1);
     for(var data: index) {
@@ -491,8 +491,8 @@ public class TimeSeriesTest {
     timeSerie.add(21L, "bar");
     timeSerie.add(22L, "baz");
     timeSerie.add(30L, "whizz");
-    var index1 = timeSerie.index(s -> s.endsWith("z"));
-    var index2 = timeSerie.index(s -> s.startsWith("ba"));
+    var index1 = timeSerie.index(s -> s.endsWith("z")); // 2 - 3
+    var index2 = timeSerie.index(s -> s.startsWith("ba")); // 0  - 2
     var index = index1.and(index2);
     assertEquals(index.size(), 1);
     for(var data: index) {
@@ -561,6 +561,21 @@ public class TimeSeriesTest {
       i++;
     }
   }
+
+
+  @Test @Tag("Q9")
+  public void indexWeirdCase() {
+    var timeSerie = new TimeSeries<Integer>();
+    timeSerie.add(12L, 1);
+    timeSerie.add(21L, 2);
+    timeSerie.add(22L, 3);
+    timeSerie.add(30L, 4);
+    var index2 = timeSerie.index();
+    var index1 = timeSerie.index(e -> e < 4);
+    var index = index1.and(index2);
+    assertEquals(index.size(), 3);
+  }
+
   @Test @Tag("Q9")
   public void indexAndNullNPE() {
     var timeSerie = new TimeSeries<String>();
@@ -569,7 +584,7 @@ public class TimeSeriesTest {
     assertThrows(NullPointerException.class, () -> index.and(null));
   }
 
-
+  /*
   @Test @Tag("Q10")
   public void indexOrCovariant() {
     TimeSeries<String> timeSerie = new TimeSeries<String>();
@@ -577,6 +592,7 @@ public class TimeSeriesTest {
     var index = timeSerie.index().or(timeSerie2.index());
     assertEquals(0, index.size());
   }
+
   @Test @Tag("Q10")
   public void indexAndCovariant() {
     TimeSeries<String> timeSerie = new TimeSeries<String>();
